@@ -1,12 +1,10 @@
 # import os
 import asyncio
 import logging
-
-from dotenv import load_dotenv
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect
-
+from fastapi import FastAPI
 from app.routers import sessions, cvs, report, jd, health
 from app.services.db import engine, Base
+from dotenv import load_dotenv
 from app.services.monitor import monitor_loop
 from app.helpers.logging_config import setup_logging
 from app.helpers.middleware import setup_middleware
@@ -24,21 +22,6 @@ app.include_router(cvs.router)
 app.include_router(report.router)
 app.include_router(jd.router)
 app.include_router(health.router)
-
-
-@app.websocket("/ws/job-portal")
-async def websocket_endpoint(websocket: WebSocket):
-    await websocket.accept()
-    try:
-        while True:
-            data = await websocket.receive_text()
-            await websocket.send_text(f"New Application Received: {data}")
-            print(f"WebSocket message received: {data}")
-            print("Notifying AI agent to process new application...")
-            
-    except WebSocketDisconnect:
-        pass
-    
 
 @app.on_event("startup")
 async def startup():
