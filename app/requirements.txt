@@ -12,3 +12,4 @@ celery
 aiofiles
 python-multipart
 itsdangerous
+websockets
