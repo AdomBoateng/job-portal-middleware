@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+*.pyo
+.vscode/
+.env
+.venv/
+middleware.log
+docs/
+.pytest_cache/
+.coverage

@@ -1,0 +1,14 @@
+fastapi[standard]
+uvicorn[standard]
+httpx
+SQLAlchemy>=2.0
+asyncpg
+psycopg2-binary
+pydantic>=2.0
+python-dotenv
+apscheduler
+redis
+celery
+aiofiles
+python-multipart
+itsdangerous
