@@ -8,3 +8,4 @@ middleware.log
 docs/
 .pytest_cache/
 .coverage
+venv/
