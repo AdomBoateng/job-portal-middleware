@@ -17,7 +17,7 @@ class MiddlewareSession(Base):
     jd_id = Column(String, nullable=False)               # Required but not part of primary key
     cv_ids = Column(ARRAY(String), default=[])
     ai_session_id = Column(String, nullable=True)
-    status = Column(String, default="pending")         # pending, active, processing, completed, failed, superseded
+    status = Column(String, default="pending")         # pending, active, processing, completed, failed, superseded, sent
     retry_count = Column(Integer, default=0)             # Number of retry attempts
     last_failure_reason = Column(String, nullable=True) # Type of last failure
     last_retry_at = Column(DateTime, nullable=True)     # Timestamp of last retry

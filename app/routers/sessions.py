@@ -1,15 +1,11 @@
 # routers/sessions.py
 from fastapi import APIRouter, HTTPException, Depends
 from app.services.db import get_db
-from app.services.orchestrator import create_middleware_session, process_session, add_cvs_to_existing_session
+from app.services.orchestrator import create_middleware_session, process_session
 from app.models.models import CreateSessionRequest, MiddlewareSession
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from typing import List
-from pydantic import BaseModel
 
-class AddCVsRequest(BaseModel):
-    cv_ids: List[str]
 
 router = APIRouter(prefix="/sessions", tags=["sessions"])
 
@@ -42,13 +38,5 @@ async def get_session(session_id: str, db: AsyncSession = Depends(get_db)):
         "last_checked": s.last_checked
     }
 
-@router.post("/{session_id}/add-cvs", summary="Add CVs to existing session")
-async def add_cvs_to_session(session_id: str, payload: AddCVsRequest, db: AsyncSession = Depends(get_db)):
-    """Add additional CVs to an existing session"""
-    try:
-        result = await add_cvs_to_existing_session(session_id, payload.cv_ids, db)
-        return result
-    except ValueError as e:
-        raise HTTPException(status_code=404, detail=str(e))
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+# Incremental "add CVs" functionality removed to enforce one-application-per-session policy.
+# Any new application should create its own session via the `/applications/process` endpoint.
